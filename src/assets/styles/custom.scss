@@ -1,0 +1,191 @@
+// intro
+.introduction {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 99;
+  background-color: rgb(30 64 175);
+
+  svg {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: calc(100% + 300px);
+
+    path {
+      fill: rgb(30 64 175);
+    }
+  }
+
+  p {
+    display: flex;
+    color: white;
+    font-size: 42px;
+    align-items: center;
+    position: absolute;
+    z-index: 1;
+
+    span {
+      display: block;
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+  }
+}
+
+// zoomimages
+.wrapper {
+  height: 300vh;
+  position: relative;
+
+  .sticky {
+    position: sticky;
+    overflow: hidden;
+    top: 0;
+    height: 100vh;
+
+    .el {
+      width: 100%;
+      height: 100%;
+      top: 0;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .imageContainer {
+        position: relative;
+        width: 25vw;
+        height: 25vh;
+
+        img {
+          object-fit: cover;
+        }
+      }
+
+      &:nth-of-type(2) {
+        .imageContainer {
+          top: -30vh;
+          left: 5vw;
+          width: 35vw;
+          height: 30vh;
+        }
+      }
+
+      &:nth-of-type(3) {
+        .imageContainer {
+          top: -10vh;
+          left: -25vw;
+          width: 20vw;
+          height: 45vh;
+        }
+      }
+
+      &:nth-of-type(4) {
+        .imageContainer {
+          left: 27.5vw;
+          width: 25vw;
+          height: 25vh;
+        }
+      }
+
+      &:nth-of-type(5) {
+        .imageContainer {
+          top: 27.5vh;
+          left: 5vw;
+          width: 20vw;
+          height: 25vh;
+        }
+      }
+
+      &:nth-of-type(6) {
+        .imageContainer {
+          top: 27.5vh;
+          left: -22.5vw;
+          width: 30vw;
+          height: 25vh;
+        }
+      }
+
+      &:nth-of-type(7) {
+        .imageContainer {
+          top: 22.5vh;
+          left: 25vw;
+          width: 15vw;
+          height: 15vh;
+        }
+      }
+    }
+  }
+}
+
+// Parallaexcards
+
+.cardContainer {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 0px;
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 60vh;
+    max-height: 75vh;
+    min-width: 1000px;
+    max-width: 60vh;
+    border-radius: 25px;
+    padding: 50px;
+    transform-origin: top;
+
+    h2 {
+      text-align: center;
+      font-size: 48px;
+      font-weight: bold;
+    }
+
+    .body {
+      display: flex;
+      height: 100%;
+      margin-top: 50px;
+      gap: 24px;
+
+      .description {
+        width: 55%;
+        position: relative;
+        top: 10%;
+
+        p {
+          font-size: 28px;
+        }
+      }
+
+      .imageContainer {
+        position: relative;
+        width: 45%;
+        height: 100%;
+        border-radius: 25px;
+        overflow: hidden;
+
+        .inner {
+          position: inherit;
+          width: 100%;
+          height: 100%;
+        }
+
+        img {
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}
