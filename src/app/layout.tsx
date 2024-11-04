@@ -33,10 +33,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Nextjs Boilerplate",
-  description:
-    "Nextjs 최신버전 15와 Turbopack으로 만든 보일러 플레이트입니다. 사이드 프로젝트용으로 만들었습니다.",
-  keywords: "NextJS 15, Turbopack, Typescript, tailwindcss, shadcn",
+  title: "Run Sync",
+  description: "",
+  keywords: "",
 };
 
 export default function RootLayout({
