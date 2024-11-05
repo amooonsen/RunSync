@@ -4,11 +4,7 @@ import {slideUp, opacity} from "@/lib/constants/introConst";
 
 const words = ["달리다", "지속", "즐겁다", "추진력", "인내", "성취", "활력", "끈기", "행복"];
 
-interface IntroProps {
-  onAnimationComplete: () => void; // onAnimationComplete 함수의 타입을 정의합니다.
-}
-
-export default function Intro({}: IntroProps) {
+export default function Intro() {
   const [index, setIndex] = useState(0);
   const [dimension, setDimension] = useState({width: 0, height: 0});
 

@@ -12,12 +12,14 @@ const lerp = (start: number, end: number, ratio: number): number => {
 };
 
 export const useMouseLerp = () => {
-  const mousePosition = useMousePosition().position;
+  // const mousePosition = useMousePosition().position;
+  const mousePosition = useMousePosition();
   const [lerpPosition, setLerpPosition] = useState({x: 0, y: 0});
   const lerpRef = useRef(lerpPosition);
   const animateRef = useRef<number>(0);
 
-  const momentPosition = useMousePosition().momentPosition;
+  // const momentPosition = useMousePosition().momentPosition;
+  const momentPosition = useMousePosition();
   const [lerpScale, setLerpScale] = useState({x: 1, y: 1});
   const lerpScaleRef = useRef(lerpScale);
 
