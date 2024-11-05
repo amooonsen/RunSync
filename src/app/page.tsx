@@ -137,6 +137,32 @@ export default function Home() {
       </ContentsSection>
       <ContentsSection layout="grid">
         <MaskText
+          containerClass="mt-20 md:col-start-2 col-end-8 col-start-1 leading-tight"
+          text={{
+            fontSize: 64,
+            weight: "semibold",
+          }}
+        >
+          당신의 적정 심박수는?
+        </MaskText>
+        <MaskText
+          containerClass="md:col-start-3 col-start-1 col-end-9 mt-10"
+          text={{
+            fontSize: 24,
+          }}
+        >
+          언제, 어떻게, 얼마나 뛰어야 할까요?
+          <br />
+          간편하게 알아보는 운동목적, 심박수, 그에 따른 설정값.
+          <br />
+        </MaskText>
+        {/* 이미지 섹션 추가 예정 */}
+      </ContentsSection>
+      <div className="flex justify-center mt-20">
+        <LinkButton title="심박수 확인하기" href="/calculate" />
+      </div>
+      <ContentsSection layout="grid">
+        <MaskText
           containerClass="mt-20 col-start-2 col-end-8"
           text={{
             fontSize: 64,
@@ -167,16 +193,16 @@ export default function Home() {
           }}
         >
           첫 발걸음을 맞추며{" "}
-          <span className="md:text-[28px] text-[22px] font-semibold text-secondary-dark">Easy</span>{" "}
+          <span className="md:text-[28px] text-[22px] font-semibold text-secondary-dark">편안</span>{" "}
           하게.
           <br />
           오늘보다는 내일이 더{" "}
           <span className="md:text-[28px] text-[22px] font-semibold text-secondary-dark">
-            Better
+            가치
           </span>{" "}
-          하게.
+          있게.
           <br />
-          초연결은 움직여야만 이뤄집니다.
+          변화는 움직여야만 이뤄집니다.
         </MaskText>
       </ContentsSection>
       <div className="flex justify-center mt-20">
@@ -234,32 +260,6 @@ export default function Home() {
       </ContentsSection>
       <div className="flex justify-center mt-20">
         <LinkButton title="코스 보러가기" href="/course" />
-      </div>
-      <ContentsSection layout="grid">
-        <MaskText
-          containerClass="mt-20 md:col-start-2 col-end-8 col-start-1 leading-tight"
-          text={{
-            fontSize: 64,
-            weight: "semibold",
-          }}
-        >
-          더 알아보기.
-        </MaskText>
-        <MaskText
-          containerClass="md:col-start-3 col-start-1 col-end-9 mt-10"
-          text={{
-            fontSize: 24,
-          }}
-        >
-          언제, 어떻게, 얼마나 뛰어야 할까요?
-          <br />
-          간편하게 알아보는 운동목적, 심박수, 그에 따른 설정값.
-          <br />
-        </MaskText>
-        {/* 이미지 섹션 추가 예정 */}
-      </ContentsSection>
-      <div className="flex justify-center mt-20">
-        <LinkButton title="심박수 확인하기" href="/calculate" />
       </div>
       <ContentsSection
         layout="grid"
