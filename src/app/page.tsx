@@ -12,6 +12,7 @@ import Image from "next/image";
 
 // assets
 import Image01 from "../../public/images/running_image01.jpg";
+import RundayLogo from "../../public/images/runday_logo.png";
 
 export default function Home() {
   return (
@@ -156,36 +157,6 @@ export default function Home() {
           간편하게 알아보는 운동목적, 심박수, 그에 따른 설정값.
           <br />
         </MaskText>
-        {/* 이미지 섹션 추가 예정 */}
-      </ContentsSection>
-      <div className="flex justify-center mt-20">
-        <LinkButton title="심박수 확인하기" href="/calculate" />
-      </div>
-      <ContentsSection layout="grid">
-        <MaskText
-          containerClass="mt-20 col-start-2 col-end-8"
-          text={{
-            fontSize: 64,
-            weight: "bold",
-          }}
-        >
-          처음이어도 걱정마세요.
-        </MaskText>
-        <MaskText
-          containerClass="mt-12 col-start-2 col-end-8 leading-tight"
-          text={{
-            fontSize: 36,
-            weight: "medium",
-          }}
-        >
-          {" "}
-          기본적인 자세, 운동 방법, 동기부여.
-          <br />
-          모두 처음부터 함께 뛰겠습니다.
-          <br />
-          우리는 <span className="text-[80px] font-semibold text-secondary-dark">이트란</span>
-          이니까요.
-        </MaskText>
         <MaskText
           containerClass="mt-12 col-start-6 col-end-9"
           text={{
@@ -204,9 +175,10 @@ export default function Home() {
           <br />
           변화는 움직여야만 이뤄집니다.
         </MaskText>
+        {/* 이미지 섹션 추가 예정 */}
       </ContentsSection>
       <div className="flex justify-center mt-20">
-        <LinkButton title="자세 보러가기" href="/run" />
+        <LinkButton title="심박수 확인하기" href="/calculate" />
       </div>
       <ContentsSection layout="grid">
         <MaskText
@@ -281,7 +253,7 @@ export default function Home() {
         </MaskText>
         {/* 이미지 섹션 추가 예정 */}
         <div className="col-start-6 col-end-[none] row-start-2 row-end-3 mt-20">
-          <Image src={Image01} width={400} height={800} alt="런데이 이미지" />
+          <Image src={RundayLogo} width={512} height={512} alt="런데이 이미지" />
         </div>
       </ContentsSection>
     </main>
