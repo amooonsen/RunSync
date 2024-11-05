@@ -23,6 +23,10 @@ body {
     --secondary: 264, 84%, 32%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
+    --third: 30, 84%, 32%;
+
+    --sub: 160, 84%, 32%;
+
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
