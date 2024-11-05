@@ -13,10 +13,11 @@ import localFont from "next/font/local";
 
 // styles
 import "./globals.css";
+import "../assets/styles/custom.scss";
 
 // provider
 import {ClientProvider} from "@/components/provider/ClientProvider";
-import {ThemeProvider} from "@/components/provider/theme-provider";
+import SmoothScrollProvider from "@/components/provider/SmoothScrollProvider";
 
 // third-party
 import NextTopLoader from "nextjs-toploader";
@@ -48,15 +49,14 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <NextTopLoader color="#16a34a" shadow="0 0 10px #16a34a,0 0 5px #16a34a" />
         <ClientProvider>
-          <ThemeProvider attribute="class" defaultTheme="system">
-            <div id="wrap">
-              <Header />
-              <main id="content" role="main">
-                {children}
-              </main>
-              <Footer />
-            </div>
-          </ThemeProvider>
+          <SmoothScrollProvider />
+          <div id="wrap" className="bg-primary">
+            <Header />
+            <main id="content" role="main">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </ClientProvider>
         <GoogleAnalytics gaId="G-내계정키 환경변수로 넣을꺼임" />
         <GoogleTagManager gtmId="G-내계정키 환경변수로 넣을꺼임" />
