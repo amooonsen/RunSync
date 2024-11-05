@@ -17,6 +17,7 @@ import "../assets/styles/custom.scss";
 
 // provider
 import {ClientProvider} from "@/components/provider/ClientProvider";
+import SmoothScrollProvider from "@/components/provider/SmoothScrollProvider";
 
 // third-party
 import NextTopLoader from "nextjs-toploader";
@@ -48,6 +49,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <NextTopLoader color="#16a34a" shadow="0 0 10px #16a34a,0 0 5px #16a34a" />
         <ClientProvider>
+          <SmoothScrollProvider />
           <div id="wrap" className="bg-primary">
             <Header />
             <main id="content" role="main">

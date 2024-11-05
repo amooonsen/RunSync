@@ -14,7 +14,7 @@ export default function Header() {
             <Link href="/calculate/heart-rate">적정 심박수</Link>
           </li>
           <li>
-            <Link href="/test">어디뛸래?</Link>
+            <Link href="/course">어디뛸래?</Link>
           </li>
           <li>
             <Link href="/notice">Notice</Link>

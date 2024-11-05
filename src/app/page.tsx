@@ -1,6 +1,3 @@
-// 작업용 use client
-"use client";
-
 import IntroProvider from "@/components/provider/IntroProvider";
 import ContentsSection from "@/components/layout/ContentsSection";
 import MaskText from "@/components/ui/mask-text";
@@ -11,8 +8,10 @@ import ParallaxCardContainer from "@/components/blocks/ParallaxCardContainer";
 import Image from "next/image";
 
 // assets
-import Image01 from "../../public/images/running_image01.jpg";
-import RundayLogo from "../../public/images/runday_logo.png";
+import RunningImage01 from "@/assets/images/running_image01.jpg";
+import RunningImage02 from "@/assets/images/running_image02.jpg";
+import RunningImage03 from "@/assets/images/running_image03.jpg";
+import RundayLogo from "@/assets/images/runday_logo.png";
 
 export default function Home() {
   return (
@@ -201,7 +200,7 @@ export default function Home() {
         </MaskText>
         <div className="col-start-1 col-end-[none] row-start-3 mt-20">
           <Image
-            src={Image01}
+            src={RunningImage01}
             width={600}
             height={400}
             sizes="100vw"
@@ -211,7 +210,7 @@ export default function Home() {
         </div>
         <div className="col-start-4 col-end-[none] row-start-4 mt-20">
           <Image
-            src={Image01}
+            src={RunningImage02}
             width={400}
             height={300}
             sizes="100vw"
@@ -221,7 +220,7 @@ export default function Home() {
         </div>
         <div className="col-start-3 col-end-[none] row-start-5 mt-20">
           <Image
-            src={Image01}
+            src={RunningImage03}
             width={400}
             height={300}
             sizes="100vw"
@@ -253,7 +252,8 @@ export default function Home() {
         </MaskText>
         {/* 이미지 섹션 추가 예정 */}
         <div className="col-start-6 col-end-[none] row-start-2 row-end-3 mt-20">
-          <Image src={RundayLogo} width={512} height={512} alt="런데이 이미지" />
+          <Image src={RundayLogo} width={256} height={256} alt="런데이 로고 이미지" />
+          <p>앱스토어, 플레이스토어 링크 바로가기</p>
         </div>
       </ContentsSection>
     </main>

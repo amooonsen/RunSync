@@ -10,5 +10,7 @@ export type TypeBenefitInfo = {
   title: string;
   description: string;
   src: object;
-  color: string;
+  backgroundColor: string;
+  titleColor?: string;
+  contentColor?: string;
 };

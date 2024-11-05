@@ -1,6 +1,7 @@
 "use client";
 
 import {useState} from "react";
+import {useRouter} from "next/navigation";
 
 // components
 import {Button} from "@/components/ui/button";
@@ -15,7 +16,6 @@ import {
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
-import {Card, CardContent, CardHeader, CardTitle, CardDescription} from "@/components/ui/card";
 import {Separator} from "@/components/ui/separator";
 
 // form
@@ -28,7 +28,7 @@ import {
 
 export default function HeartRateCalculator() {
   const [results, setResults] = useState<Record<string, number> | null>(null);
-
+  const router = useRouter();
   const form = useForm<HeartRateCalculatorSchemaType>({
     resolver: zodResolver(HeartRateCalculatorSchema),
     defaultValues: {
@@ -69,166 +69,135 @@ export default function HeartRateCalculator() {
       zone4: 144,
       zone5: 162,
     });
+
+    router.push("/calculate/heart-rate/result");
   }
 
   return (
-    <div className="container mx-auto p-4 max-w-3xl">
-      <Card className="w-full">
-        <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold">적정 심박수 계산기</CardTitle>
-          <CardDescription>
-            나이와 안정시 심박수를 입력하여 운동 강도별 목표 심박수를 계산하세요.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
-                  control={form.control}
-                  name="age"
-                  render={({field}) => (
-                    <FormItem>
-                      <FormLabel>나이</FormLabel>
-                      <FormControl>
-                        <Input placeholder="예: 30" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="restingHeartRate"
-                  render={({field}) => (
-                    <FormItem>
-                      <FormLabel>안정시 심박수</FormLabel>
-                      <FormControl>
-                        <Input placeholder="예: 60" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="age"
+            render={({field}) => (
+              <FormItem>
+                <FormLabel>나이</FormLabel>
+                <FormControl>
+                  <Input maxLength={3} placeholder="나이를 입력해주세요." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="restingHeartRate"
+            render={({field}) => (
+              <FormItem>
+                <FormLabel>안정시 심박수</FormLabel>
+                <FormControl>
+                  <Input
+                    minLength={2}
+                    maxLength={3}
+                    placeholder="안정시 심박수를 입력해주세요."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-              <FormField
-                control={form.control}
-                name="gender"
-                render={({field}) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel>성별</FormLabel>
+        <FormField
+          control={form.control}
+          name="gender"
+          render={({field}) => (
+            <FormItem className="space-y-3">
+              <FormLabel>성별</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col space-y-1 md:flex-row md:space-x-4 md:space-y-0"
+                >
+                  <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="flex flex-col space-y-1 sm:flex-row sm:space-x-4 sm:space-y-0"
-                      >
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="male" />
-                          </FormControl>
-                          <FormLabel className="font-normal">남성</FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="female" />
-                          </FormControl>
-                          <FormLabel className="font-normal">여성</FormLabel>
-                        </FormItem>
-                      </RadioGroup>
+                      <RadioGroupItem value="male" />
                     </FormControl>
-                    <FormMessage />
+                    <FormLabel className="font-normal">남성</FormLabel>
                   </FormItem>
-                )}
-              />
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="female" />
+                    </FormControl>
+                    <FormLabel className="font-normal">여성</FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
+        <FormField
+          control={form.control}
+          name="maxHeartRate"
+          render={({field}) => (
+            <FormItem>
+              <FormLabel>최대 심박수 (선택사항)</FormLabel>
+              <FormControl>
+                <Input placeholder="직접 입력하거나 비워두세요" {...field} />
+              </FormControl>
+              <FormDescription>입력하지 않으면 나이를 기준으로 자동 계산됩니다.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Separator className="my-6" />
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">운동 강도 설정 (% of Max HR)</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {["zone1", "zone2", "zone3", "zone4", "zone5"].map((zone, index) => (
               <FormField
+                key={zone}
                 control={form.control}
-                name="maxHeartRate"
+                name={zone as keyof HeartRateCalculatorSchemaType}
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>최대 심박수 (선택사항)</FormLabel>
+                    <FormLabel>Zone {index + 1}</FormLabel>
                     <FormControl>
-                      <Input placeholder="직접 입력하거나 비워두세요" {...field} />
+                      <Input {...field} />
                     </FormControl>
-                    <FormDescription>
-                      입력하지 않으면 나이를 기준으로 자동 계산됩니다.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+            ))}
+          </div>
+        </div>
 
-              <Separator className="my-6" />
-
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">운동 강도 설정 (% of Max HR)</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-                  {["zone1", "zone2", "zone3", "zone4", "zone5"].map((zone, index) => (
-                    <FormField
-                      key={zone}
-                      control={form.control}
-                      name={zone as keyof HeartRateCalculatorSchemaType}
-                      render={({field}) => (
-                        <FormItem>
-                          <FormLabel>Zone {index + 1}</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row justify-between gap-4">
-                <Button type="submit" className="w-full sm:w-auto">
-                  계산하기
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full sm:w-auto"
-                  onClick={() => {
-                    form.reset();
-                    setResults(null);
-                  }}
-                >
-                  다시하기
-                </Button>
-              </div>
-            </form>
-          </Form>
-
-          {results && (
-            <Card className="mt-8">
-              <CardHeader>
-                <CardTitle>계산 결과</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="font-semibold">최대 심박수:</div>
-                  <div>{results.maxHeartRate} bpm</div>
-                  <div className="font-semibold">Zone 1:</div>
-                  <div>{results.zone1} bpm</div>
-                  <div className="font-semibold">Zone 2:</div>
-                  <div>{results.zone2} bpm</div>
-                  <div className="font-semibold">Zone 3:</div>
-                  <div>{results.zone3} bpm</div>
-                  <div className="font-semibold">Zone 4:</div>
-                  <div>{results.zone4} bpm</div>
-                  <div className="font-semibold">Zone 5:</div>
-                  <div>{results.zone5} bpm</div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+        <div className="flex flex-col md:flex-row justify-center gap-4">
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full md:w-auto"
+            onClick={() => {
+              form.reset();
+              setResults(null);
+            }}
+          >
+            다시하기
+          </Button>
+          <Button type="submit" className="w-full md:w-auto">
+            계산하기
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }
 
