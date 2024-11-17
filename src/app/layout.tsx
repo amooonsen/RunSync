@@ -47,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <NextTopLoader color="#16a34a" shadow="0 0 10px #16a34a,0 0 5px #16a34a" />
+        <NextTopLoader color="#8a3e0e" shadow="0 0 10px #8a3e0e,0 0 5px #8a3e0e" />
         <ClientProvider>
           <SmoothScrollProvider />
           <div id="wrap" className="bg-primary">
