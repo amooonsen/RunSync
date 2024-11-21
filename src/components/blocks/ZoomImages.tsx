@@ -15,17 +15,18 @@ import SeoulVisual04 from "@/assets/images/seoul_visual04.jpg";
 
 export default function ZoomImages() {
   const wrapper = useRef(null);
+  const containerRef = useRef(null);
 
   const {scrollYProgress} = useScroll({
-    target: wrapper,
-    offset: ["start start", "end end"],
+    target: containerRef,
+    offset: ["start end", "end end"],
   });
 
-  const scale4 = useTransform(scrollYProgress, [0, 1], [1, 3]);
-  const scale5 = useTransform(scrollYProgress, [0, 1], [1, 5.5]);
-  const scale6 = useTransform(scrollYProgress, [0, 1], [1, 5]);
-  const scale8 = useTransform(scrollYProgress, [0, 1], [1, 6]);
-  const scale9 = useTransform(scrollYProgress, [0, 1], [1, 7]);
+  const scale4 = useTransform(scrollYProgress, [0.3, 1], [1, 3]);
+  const scale5 = useTransform(scrollYProgress, [0.3, 1], [1, 5.5]);
+  const scale6 = useTransform(scrollYProgress, [0.3, 1], [1, 5]);
+  const scale8 = useTransform(scrollYProgress, [0.3, 1], [1, 6]);
+  const scale9 = useTransform(scrollYProgress, [0.3, 1], [1, 7]);
 
   const pictures = [
     {
@@ -59,15 +60,23 @@ export default function ZoomImages() {
   ];
 
   return (
-    <div ref={wrapper} className="wrapper mt-20" aria-hidden>
-      <div className="sticky">
-        {pictures.map(({src, scale}, index) => (
-          <motion.div key={index} style={{scale}} className="el">
-            <div className="imageContainer">
-              <Image src={src} fill alt="image" placeholder="blur" loading="lazy" />
-            </div>
-          </motion.div>
-        ))}
+    <div ref={containerRef}>
+      <motion.div
+        className="fixed inset-0 bg-primary pointer-events-none"
+        style={{
+          opacity: useTransform(scrollYProgress, [0.2, 0.4], [0, 1]),
+        }}
+      />
+      <div ref={wrapper} className="wrapper mt-20" aria-hidden>
+        <div className="sticky">
+          {pictures.map(({src, scale}, index) => (
+            <motion.div key={index} style={{scale}} className="el">
+              <div className="imageContainer">
+                <Image src={src} fill alt="image" placeholder="blur" loading="lazy" />
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   );

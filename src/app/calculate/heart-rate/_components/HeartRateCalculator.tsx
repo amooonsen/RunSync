@@ -1,7 +1,10 @@
 "use client";
 
-import {useState} from "react";
 import {useRouter} from "next/navigation";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import * as z from "zod";
+import {useHeartRateStore} from "@/lib/store/useHeartRateStore";
 
 // components
 import {Button} from "@/components/ui/button";
@@ -16,100 +19,60 @@ import {
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
-import {Separator} from "@/components/ui/separator";
-
-// form
-import {zodResolver} from "@hookform/resolvers/zod";
-import {useForm} from "react-hook-form";
 import {
-  HeartRateCalculatorSchema,
-  HeartRateCalculatorSchemaType,
-} from "@/lib/schema/calculate.schema";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const formSchema = z.object({
+  gender: z.enum(["male", "female"]),
+  age: z.string().min(1, "나이를 입력해주세요"),
+  height: z.string().min(1, "키를 입력해주세요"),
+  weight: z.string().min(1, "체중을 입력해주세요"),
+  lifeStyle: z.string().min(1, "생활습관을 선택해주세요"),
+  exerciseLevel: z.string().min(1, "운동 구력을 선택해주세요"),
+  exerciseFrequency: z.string().min(1, "운동 횟수를 선택해주세요"),
+  healthLevel: z.string().min(1, "체력수준을 선택해주세요"),
+});
 
 export default function HeartRateCalculator() {
-  const [results, setResults] = useState<Record<string, number> | null>(null);
   const router = useRouter();
-  const form = useForm<HeartRateCalculatorSchemaType>({
-    resolver: zodResolver(HeartRateCalculatorSchema),
+  const setUserData = useHeartRateStore((state) => state.setUserData);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      age: "",
-      restingHeartRate: "",
       gender: "male",
-      maxHeartRate: "",
-      zone1: "50",
-      zone2: "60",
-      zone3: "70",
-      zone4: "80",
-      zone5: "90",
+      age: "",
+      height: "",
+      weight: "",
+      lifeStyle: "",
+      exerciseLevel: "",
+      exerciseFrequency: "",
+      healthLevel: "",
     },
   });
 
-  function onSubmit(values: HeartRateCalculatorSchemaType) {
-    // const maxHR =
-    //   values.maxHeartRate ||
-    //   (values.gender === "male" ? 214 - 0.8 * values.age : 209 - 0.7 * values.age);
-    // const calculateZone = (percentage: number) =>
-    //   Math.round(((maxHR - values.restingHeartRate) * percentage) / 100 + values.restingHeartRate);
-
-    // setResults({
-    //   maxHeartRate: Math.round(maxHR),
-    //   zone1: calculateZone(values.zone1),
-    //   zone2: calculateZone(values.zone2),
-    //   zone3: calculateZone(values.zone3),
-    //   zone4: calculateZone(values.zone4),
-    //   zone5: calculateZone(values.zone5),
-    // });
-
-    console.log(values);
-    setResults({
-      maxHeartRate: 180,
-      zone1: 90,
-      zone2: 108,
-      zone3: 126,
-      zone4: 144,
-      zone5: 162,
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    setUserData({
+      gender: values.gender,
+      age: Number(values.age),
+      height: Number(values.height),
+      weight: Number(values.weight),
+      lifeStyle: values.lifeStyle,
+      exerciseLevel: values.exerciseLevel,
+      exerciseFrequency: values.exerciseFrequency,
+      healthLevel: values.healthLevel,
     });
-
     router.push("/calculate/heart-rate/result");
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FormField
-            control={form.control}
-            name="age"
-            render={({field}) => (
-              <FormItem>
-                <FormLabel>나이</FormLabel>
-                <FormControl>
-                  <Input maxLength={3} placeholder="나이를 입력해주세요." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="restingHeartRate"
-            render={({field}) => (
-              <FormItem>
-                <FormLabel>안정시 심박수</FormLabel>
-                <FormControl>
-                  <Input
-                    minLength={2}
-                    maxLength={3}
-                    placeholder="안정시 심박수를 입력해주세요."
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
         <FormField
           control={form.control}
           name="gender"
@@ -141,54 +104,161 @@ export default function HeartRateCalculator() {
           )}
         />
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="age"
+            render={({field}) => (
+              <FormItem>
+                <FormLabel>나이</FormLabel>
+                <FormControl>
+                  <Input type="number" placeholder="나이를 입력해주세요" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="height"
+            render={({field}) => (
+              <FormItem>
+                <FormLabel>키 (cm)</FormLabel>
+                <FormControl>
+                  <Input type="number" placeholder="키를 입력해주세요" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="weight"
+            render={({field}) => (
+              <FormItem>
+                <FormLabel>체중 (kg)</FormLabel>
+                <FormControl>
+                  <Input type="number" placeholder="체중을 입력해주세요" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <FormField
           control={form.control}
-          name="maxHeartRate"
+          name="lifeStyle"
           render={({field}) => (
             <FormItem>
-              <FormLabel>최대 심박수 (선택사항)</FormLabel>
-              <FormControl>
-                <Input placeholder="직접 입력하거나 비워두세요" {...field} />
-              </FormControl>
-              <FormDescription>입력하지 않으면 나이를 기준으로 자동 계산됩니다.</FormDescription>
+              <FormLabel>생활습관</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="생활습관을 선택해주세요" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="1.05">15시간 이상 누워있습니다</SelectItem>
+                  <SelectItem value="1.10">집에서 거의 움직이지 않습니다</SelectItem>
+                  <SelectItem value="1.17">학생 또는 일반 사무직입니다</SelectItem>
+                  <SelectItem value="1.24">활동적입니다</SelectItem>
+                  <SelectItem value="1.31">보통 뛰어다닙니다</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Separator className="my-6" />
+        <FormField
+          control={form.control}
+          name="exerciseLevel"
+          render={({field}) => (
+            <FormItem>
+              <FormLabel>운동 구력</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="운동 구력을 선택해주세요" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="200">입문자</SelectItem>
+                  <SelectItem value="210">1~3년차 헬린이</SelectItem>
+                  <SelectItem value="220">3~5년차 중급자</SelectItem>
+                  <SelectItem value="230">5년차 이상 헬창</SelectItem>
+                  <SelectItem value="240">10년차 이상 관장</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">운동 강도 설정 (% of Max HR)</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {["zone1", "zone2", "zone3", "zone4", "zone5"].map((zone, index) => (
-              <FormField
-                key={zone}
-                control={form.control}
-                name={zone as keyof HeartRateCalculatorSchemaType}
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Zone {index + 1}</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ))}
-          </div>
-        </div>
+        <FormField
+          control={form.control}
+          name="exerciseFrequency"
+          render={({field}) => (
+            <FormItem>
+              <FormLabel>운동 횟수</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="운동 횟수를 선택해주세요" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="0">안함</SelectItem>
+                  <SelectItem value="0.8">주 1회</SelectItem>
+                  <SelectItem value="1.05">주 2회</SelectItem>
+                  <SelectItem value="1.3">주 3회</SelectItem>
+                  <SelectItem value="1.55">주 4회</SelectItem>
+                  <SelectItem value="1.8">주 5회</SelectItem>
+                  <SelectItem value="2.05">주 6회</SelectItem>
+                  <SelectItem value="2.30">주 7회</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="healthLevel"
+          render={({field}) => (
+            <FormItem>
+              <FormLabel>체력수준</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="체력수준을 선택해주세요" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="88">매우 나쁨 : 걷지도 못하겠어요</SelectItem>
+                  <SelectItem value="80">나쁨 : 못 달리겠어요</SelectItem>
+                  <SelectItem value="74">평균 이하 : 달리면 힘들어요</SelectItem>
+                  <SelectItem value="66">평균 : 5km 달리기 가능</SelectItem>
+                  <SelectItem value="58">평균 이상 : 10km 달리기 완주 가능</SelectItem>
+                  <SelectItem value="50">좋음 : 하프코스(21km) 달리기 완주 가능</SelectItem>
+                  <SelectItem value="42">매우 좋음 : 풀코스(42km) 달리기 완주 가능</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <div className="flex flex-col md:flex-row justify-center gap-4">
           <Button
             type="button"
             variant="outline"
             className="w-full md:w-auto"
-            onClick={() => {
-              form.reset();
-              setResults(null);
-            }}
+            onClick={() => form.reset()}
           >
             다시하기
           </Button>

@@ -50,7 +50,7 @@ export default function RootLayout({
         <NextTopLoader color="#8a3e0e" shadow="0 0 10px #8a3e0e,0 0 5px #8a3e0e" />
         <ClientProvider>
           <SmoothScrollProvider />
-          <div id="wrap" className="bg-primary">
+          <div id="wrap" className="bg-[#111]">
             <Header />
             <main id="content" role="main">
               {children}
